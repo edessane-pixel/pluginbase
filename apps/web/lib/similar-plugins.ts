@@ -5,6 +5,10 @@ export interface SimilarGroup {
   samples: InventoryItem[];  // max 5
 }
 
+const SCORE_SAME_SUBCATEGORY = 10;
+const SCORE_FAVORITE = 5;
+const SCORE_ESSENTIAL = 3;
+
 export function findSimilarPlugins(
   current: InventoryItem,
   all: InventoryItem[]
@@ -25,9 +29,9 @@ export function findSimilarPlugins(
   // 4. Reste
   const scored = sameCategory.map(i => {
     let score = 0;
-    if (current.subcategory && i.subcategory === current.subcategory) score += 10;
-    if (i.favorite) score += 5;
-    if (i.status === 'ESSENTIAL') score += 3;
+    if (current.subcategory && i.subcategory === current.subcategory) score += SCORE_SAME_SUBCATEGORY;
+    if (i.favorite) score += SCORE_FAVORITE;
+    if (i.status === 'ESSENTIAL') score += SCORE_ESSENTIAL;
     return { item: i, score };
   });
 
