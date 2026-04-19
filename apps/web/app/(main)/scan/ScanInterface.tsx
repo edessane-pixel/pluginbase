@@ -18,6 +18,7 @@ import { useInventoryStore, buildItemId, InventoryItem } from '../../../stores/i
 import { useOnboardingStore } from '../../../stores/onboarding-store';
 import { useSessionLogStore } from '../../../stores/session-log-store';
 import { useUnrecognizedStore } from '../../../stores/unrecognized-store';
+import { useFileHandlesStore } from '../../../stores/file-handles-store';
 import { logger } from '../../../lib/logger';
 
 type ScanStatus = 'idle' | 'scanning' | 'completed' | 'unsupported' | 'error';
@@ -33,6 +34,7 @@ export function ScanInterface() {
   const { markFirstScanDone } = useOnboardingStore();
   const log = useSessionLogStore(s => s.log);
   const recordUnrecognized = useUnrecognizedStore(s => s.record);
+  const { setRoot, setPluginPathMap } = useFileHandlesStore();
 
   useEffect(() => {
     const compatible = typeof window !== 'undefined' && 'showDirectoryPicker' in window;
@@ -134,8 +136,9 @@ export function ScanInterface() {
 
       const detectedPlugins: Omit<InventoryItem, 'status' | 'favorite' | 'personalNote' | 'customTags'>[] = [];
       let recognizedCount = 0;
+      const pathMap = new Map<string, string>();
 
-      async function processHandle(handle: FileSystemHandle) {
+      async function processHandle(handle: FileSystemHandle, pathFromRoot: string) {
         const name = handle.name;
         let format: PluginFormat | null = null;
 
@@ -161,20 +164,22 @@ export function ScanInterface() {
               displayName: normalized.displayName,
               category: normalized.category
             });
+            pathMap.set(id, pathFromRoot);
           }
           return;
         }
 
         if (handle.kind === 'directory') {
-          const dirHandle = handle as FileSystemDirectoryHandle;
-          for await (const entry of dirHandle.values()) {
-            await processHandle(entry);
+          const subDirHandle = handle as FileSystemDirectoryHandle;
+          for await (const entry of subDirHandle.values()) {
+            const childPath = pathFromRoot ? `${pathFromRoot}/${entry.name}` : entry.name;
+            await processHandle(entry, childPath);
           }
         }
       }
 
       for await (const entry of dirHandle.values()) {
-        await processHandle(entry);
+        await processHandle(entry, entry.name);
       }
 
       if (detectedPlugins.length === 0) {
@@ -194,6 +199,10 @@ export function ScanInterface() {
       setScanInsights(calculateInsights(detectedPlugins));
       setFailedAttempts(0); // Reset suite au succès
       setStatus('completed');
+      
+      // Stocker le handle et la carte des chemins pour le mode Purge
+      setRoot(dirHandle, dirHandle.name);
+      setPluginPathMap(pathMap);
       
       if (isFirstScan) {
         markFirstScanDone();

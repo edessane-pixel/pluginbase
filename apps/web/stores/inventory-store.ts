@@ -42,6 +42,12 @@ interface InventoryState {
   addTag: (id: string, tag: string) => void;
   removeTag: (id: string, tag: string) => void;
   removeItem: (id: string) => void;
+  /**
+   * Retire du store les plugins supprimés physiquement du disque.
+   * Sémantique différente de removeItem : batch, irréversible, déclenché uniquement
+   * après une suppression réussie depuis le Mode Purge.
+   */
+  markAsDeleted: (ids: string[]) => void;
   reset: () => void;
 }
 
@@ -140,6 +146,13 @@ export const useInventoryStore = create<InventoryState>()(
       removeItem: (id) => {
         set((state) => ({
           items: state.items.filter(item => item.id !== id)
+        }));
+      },
+
+      markAsDeleted: (ids) => {
+        const idSet = new Set(ids);
+        set((state) => ({
+          items: state.items.filter((i) => !idSet.has(i.id)),
         }));
       },
 
