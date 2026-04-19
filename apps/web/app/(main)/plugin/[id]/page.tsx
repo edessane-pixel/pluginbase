@@ -39,6 +39,13 @@ export default function PluginDetailPage() {
     log({ type: 'plugin_detail_opened' });
   }, [log]);
 
+  // Sync note quand l'item est chargé depuis le store (après hydratation Zustand)
+  useEffect(() => {
+    if (item) {
+      setLocalNote(item.personalNote || '');
+    }
+  }, [item?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Persister la note au changement avec debounce
   useEffect(() => {
     if (!item) return;
