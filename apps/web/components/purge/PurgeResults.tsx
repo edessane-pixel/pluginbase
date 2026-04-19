@@ -34,6 +34,8 @@ export function PurgeResults({ results }: PurgeResultsProps) {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // Presse-papiers non disponible — ignorer silencieusement
     });
   };
 

@@ -9,7 +9,11 @@ interface FileHandlesState {
   rootDirHandle: FileSystemDirectoryHandle | null;
   rootDirName: string | null;
   writePermissionGranted: boolean;
-  /** Mapping itemId → relativePath depuis le dernier scan */
+  /** 
+   * Mapping itemId → relativePath depuis le dernier scan.
+   * - Clés : résultats de `buildItemId(rawFileName, format)` (ex: "vst3-serum-x64-vst3")
+   * - Valeurs : chemin relatif depuis le dossier racine (ex: "Serum_x64.vst3" ou "Brand/Plugin.vst3")
+   */
   pluginPathMap: Map<string, string>;
   setRoot: (handle: FileSystemDirectoryHandle, name: string) => void;
   clearRoot: () => void;

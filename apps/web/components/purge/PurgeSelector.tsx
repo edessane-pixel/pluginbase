@@ -89,7 +89,9 @@ export function PurgeSelector({ selectedIds, onSelectionChange, onConfirm }: Pur
       .map((id) => {
         const item = items.find((i) => i.id === id);
         if (!item) return null;
-        const relativePath = pluginPathMap.get(id) ?? item.nameRaw;
+        const relativePath = pluginPathMap.get(id);
+        // Ne pas tenter de supprimer un plugin sans chemin valide dans le handle actif
+        if (!relativePath) return null;
         return {
           nameRaw: item.nameRaw,
           format: item.format,
