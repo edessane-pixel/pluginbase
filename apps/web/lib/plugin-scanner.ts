@@ -8,6 +8,32 @@ export type PickerOutcome =
   | { status: 'unknown_error'; error: unknown };
 
 /**
+ * Représente un plugin détecté lors d'un scan, avec les informations nécessaires
+ * pour le retrouver et le supprimer sur le disque.
+ */
+export interface DetectedPlugin {
+  nameRaw: string;
+  format: string;
+  /** Chemin relatif depuis le dossier racine sélectionné, ex: "Serum_x64.vst3" ou "Brand/Plugin.vst3" */
+  relativePath: string;
+  /** Nom du dossier racine sélectionné lors du scan, ex: "VST3" */
+  parentDirName: string;
+}
+
+/**
+ * Résultat complet d'un scan de dossier.
+ */
+export interface ScanOutcome {
+  plugins: DetectedPlugin[];
+  skipped: number;
+  cancelled: boolean;
+  /** Handle du dossier racine sélectionné (non sérialisable, volatile) */
+  rootDirHandle?: FileSystemDirectoryHandle;
+  /** Nom du dossier racine, ex: "VST3" */
+  rootDirName?: string;
+}
+
+/**
  * Encapsule showDirectoryPicker avec une gestion fine des erreurs de sécurité/annulation
  */
 export async function openDirectoryPicker(): Promise<PickerOutcome> {

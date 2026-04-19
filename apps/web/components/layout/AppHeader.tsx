@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Layers, Search, Copy, ScanLine, HelpCircle } from 'lucide-react';
+import { Layers, Search, Copy, ScanLine, HelpCircle, Trash2 } from 'lucide-react';
 import { useInventoryStore } from '../../stores/inventory-store';
 import { detectMultiFormatDuplicates, detectFunctionalDuplicates } from '../../lib/duplicate-detector';
 
@@ -29,6 +29,8 @@ export function AppHeader() {
     { label: 'Insights', href: '/insights', icon: <Layers size={16} /> },
     { label: 'Scanner', href: '/scan', icon: <ScanLine size={16} /> },
   ];
+
+  const isPurge = pathname === '/purge';
 
   return (
     <header className="h-[64px] bg-[var(--bg-surface)] border-b border-[var(--border)] px-6 flex items-center justify-between sticky top-0 z-50">
@@ -67,6 +69,18 @@ export function AppHeader() {
       </nav>
 
       <div className="flex items-center gap-4">
+        <Link
+          href="/purge"
+          className={`
+            flex items-center gap-1.5 text-xs font-mono font-medium transition-colors opacity-70 hover:opacity-100
+            ${isPurge ? 'text-[var(--status-doublon)]' : 'text-[var(--text-muted)] hover:text-[var(--status-doublon)]'}
+          `}
+          title="Mode Purge — supprimer des plugins"
+        >
+          <Trash2 size={13} />
+          <span className="hidden md:inline">Purge</span>
+        </Link>
+
         <Link 
           href="/aide" 
           className={`
