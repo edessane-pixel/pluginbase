@@ -29,9 +29,8 @@ export function normalizePluginPattern(raw: string): string {
     .replace(/[\s\-.]+/g, '_')
     // 6. Retirer suffixes techniques fréquents (mais PAS les chiffres du nom)
     .replace(/_(x64|x86|64bit|32bit|vst|vst3|au|aax|clap)(_|$)/g, '_')
-    // 7. Retirer UNIQUEMENT les patterns de version isolés (séparés par underscore)
+    // 7. Retirer UNIQUEMENT les patterns de version isolés préfixés par "v" (ex: _v1_0, _v2)
     .replace(/_v\d+(?:[._]\d+)*(?=_|$)/g, '_')
-    .replace(/_\d+[._]\d+(?:[._]\d+)*(?=_|$)/g, '_')
     // 8. Nettoyer les caractères non alphanumériques restants
     .replace(/[^a-z0-9_]/g, '')
     // 9. Compresser les underscores multiples

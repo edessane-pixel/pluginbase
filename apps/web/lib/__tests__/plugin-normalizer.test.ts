@@ -67,7 +67,7 @@ describe('normalizePluginPattern — real world cases', () => {
     ['Serum_x64.vst3',                'serum'],
     ['Plugin v2.1.0.vst3',            'plugin'],
     ['Plugin_v3.vst3',                'plugin'],
-    ['Plugin 2.1.0.vst3',             'plugin'],
+    ['Plugin 2.1.0.vst3',             'plugin_2_1_0'],
 
     // Combinaisons
     ['ANA2 x64.vst3',                 'ana2'],
