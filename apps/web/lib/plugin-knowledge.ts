@@ -27,6 +27,9 @@ export interface KnownPlugin {
   category: PluginCategory;
   subcategory?: string;
   aliases: string[]; // patterns normalisés (sortie de normalizePluginPattern)
+  description?: string;        // FR curé pour tier 1 uniquement
+  releaseYear?: number;        // optionnel
+  manufacturerUrl?: string;    // optionnel, site officiel produit
 }
 
 export const KNOWN_PLUGINS: KnownPlugin[] = [
@@ -329,8 +332,8 @@ export const KNOWN_PLUGINS: KnownPlugin[] = [
   { brand: "Native Instruments", displayName: "Massive", category: "Synth", aliases: ["massive"] },
   { brand: "Native Instruments", displayName: "Massive X", category: "Synth", aliases: ["massive_x"] },
   { brand: "Native Instruments", displayName: "FM8", category: "Synth", aliases: ["fm8"] },
-  { brand: "Native Instruments", displayName: "Kontakt 7", category: "Sampler", aliases: ["kontakt_7", "kontakt"] },
-  { brand: "Native Instruments", displayName: "Kontakt 8", category: "Sampler", aliases: ["kontakt_8"] },
+  { brand: "Native Instruments", displayName: "Kontakt 7", category: "Sampler", aliases: ["kontakt_7", "kontakt"], manufacturerUrl: "https://www.native-instruments.com/fr/products/komplete/samplers/kontakt-7/", description: "Kontakt, ce n'est pas vraiment un instrument — c'est un hôte qui charge des banques de sons. À peu près tous les orchestres virtuels, pianos échantillonnés, guitares pro et instruments ethniques du marché fonctionnent dedans. Si tu fais de la musique à l'image, de la bande-son, du hip-hop avec samples, ou tu as besoin d'instruments acoustiques réalistes, Kontakt est probablement le moteur qui tourne sous le capot. Il existe une version gratuite (Kontakt Player) qui lit les banques payantes NI, et la version complète qui permet aussi de créer tes propres instruments." },
+  { brand: "Native Instruments", displayName: "Kontakt 8", category: "Sampler", aliases: ["kontakt_8"], manufacturerUrl: "https://www.native-instruments.com/fr/products/komplete/samplers/kontakt-8/", description: "Kontakt, ce n'est pas vraiment un instrument — c'est un hôte qui charge des banques de sons. À peu près tous les orchestres virtuels, pianos échantillonnés, guitares pro et instruments ethniques du marché fonctionnent dedans. Si tu fais de la musique à l'image, de la bande-son, du hip-hop avec samples, ou tu as besoin d'instruments acoustiques réalistes, Kontakt est probablement le moteur qui tourne sous le capot. Il existe une version gratuite (Kontakt Player) qui lit les banques payantes NI, et la version complète qui permet aussi de créer tes propres instruments." },
   { brand: "Native Instruments", displayName: "Battery 4", category: "Sampler", aliases: ["battery_4", "battery"] },
   { brand: "Native Instruments", displayName: "Reaktor 6", category: "Sampler", aliases: ["reaktor_6", "reaktor"] },
   { brand: "Native Instruments", displayName: "Guitar Rig 7", category: "Creative", aliases: ["guitar_rig_7", "guitar_rig"] },
@@ -344,16 +347,16 @@ export const KNOWN_PLUGINS: KnownPlugin[] = [
   { brand: "Native Instruments", displayName: "Vari Comp", category: "Compressor", aliases: ["vari_comp"] },
 
   // --- FABFILTER ---
-  { brand: "FabFilter", displayName: "Pro-Q 4", category: "EQ", aliases: ["fabfilter_pro_q_4", "pro_q_4"] },
-  { brand: "FabFilter", displayName: "Pro-Q 3", category: "EQ", aliases: ["fabfilter_pro_q_3", "pro_q_3"] },
-  { brand: "FabFilter", displayName: "Pro-C 2", category: "Compressor", aliases: ["fabfilter_pro_c_2", "pro_c_2"] },
-  { brand: "FabFilter", displayName: "Pro-L 2", category: "Limiter", aliases: ["fabfilter_pro_l_2", "pro_l_2"] },
-  { brand: "FabFilter", displayName: "Pro-R 2", category: "Reverb", aliases: ["fabfilter_pro_r_2", "pro_r_2"] },
+  { brand: "FabFilter", displayName: "Pro-Q 4", category: "EQ", aliases: ["fabfilter_pro_q_4", "pro_q_4"], manufacturerUrl: "https://www.fabfilter.com/products/pro-q-4-equalizer-plug-in", description: "Pro-Q 4, c'est la dernière évolution de l'EQ de référence FabFilter. Par rapport au Pro-Q 3, il ajoute un mode dynamique plus souple et l'égalisation en fonction du spectre d'une autre piste (EQ Match). Si tu as déjà Pro-Q 3, l'upgrade n'est pas vital. Si tu pars de zéro, c'est l'EQ à avoir." },
+  { brand: "FabFilter", displayName: "Pro-Q 3", category: "EQ", aliases: ["fabfilter_pro_q_3", "pro_q_3"], manufacturerUrl: "https://www.fabfilter.com/products/pro-q-3-equalizer-plug-in", description: "Pro-Q 3, c'est l'EQ paramétrique de référence depuis 2017. Jusqu'à 24 bandes, filtres linéaires ou à phase minimale, analyseur spectral en temps réel avec comparaison avant/après, détection intelligente des conflits entre pistes — tout ce qu'un EQ peut faire, il le fait, et mieux que la plupart. Point fort : l'interface est si fluide qu'on oublie qu'on manipule un outil. Point faible : à force d'être partout, ça peut pousser à sur-égaliser au lieu d'aller chercher un meilleur son à la source." },
+  { brand: "FabFilter", displayName: "Pro-C 2", category: "Compressor", aliases: ["fabfilter_pro_c_2", "pro_c_2"], manufacturerUrl: "https://www.fabfilter.com/products/pro-c-2-compressor-plug-in", description: "Pro-C 2, c'est le compresseur couteau-suisse qui simule plusieurs caractères : Clean (transparent, pour le mastering), Opto (doux, pour la voix et la basse), Vocal (adapté aux pistes vocales), Mastering (chirurgical), Punch (pour la batterie), Bus (pour coller un groupe). Interface visuelle excellente avec le signal qui passe en temps réel. Si tu n'as qu'un seul compresseur VST, c'est un candidat sérieux. Si tu en as 50, celui-ci remplace probablement la moitié d'entre eux." },
+  { brand: "FabFilter", displayName: "Pro-L 2", category: "Limiter", aliases: ["fabfilter_pro_l_2", "pro_l_2"], manufacturerUrl: "https://www.fabfilter.com/products/pro-l-2-limiter-plug-in", description: "Pro-L 2, c'est LE limiteur de mastering le plus utilisé par les ingés du son modernes. Huit styles d'algorithmes, gestion précise des True Peaks, lookahead ajustable, et surtout une transparence remarquable même sous forte compression. Si tu as du mal à obtenir un master fort sans étouffer le mix, Pro-L 2 est la réponse. Attention : un limiteur ne remplace pas un mix équilibré." },
+  { brand: "FabFilter", displayName: "Pro-R 2", category: "Reverb", aliases: ["fabfilter_pro_r_2", "pro_r_2"], manufacturerUrl: "https://www.fabfilter.com/products/pro-r-2-reverb-plug-in", description: "Pro-R 2, c'est le reverb algorithmique signature FabFilter. Plutôt que de copier tel ou tel hardware vintage, il propose une approche unique : un paramètre 'Space' qui traverse continûment du petit local jusqu'à la cathédrale, et un égaliseur de decay qui permet d'allonger ou raccourcir certaines fréquences dans la queue. Sonorité moderne, propre, contrôlable. Parfait pour la pop, l'électronique, la musique à l'image." },
   { brand: "FabFilter", displayName: "Saturn 2", category: "Saturation", aliases: ["fabfilter_saturn_2", "saturn_2"] },
   { brand: "FabFilter", displayName: "Timeless 3", category: "Delay", aliases: ["fabfilter_timeless_3", "timeless_3"] },
   { brand: "FabFilter", displayName: "Twin 3", category: "Synth", aliases: ["fabfilter_twin_3", "twin_3"] },
   { brand: "FabFilter", displayName: "Volcano 3", category: "Filter", aliases: ["fabfilter_volcano_3", "volcano_3"] },
-  { brand: "FabFilter", displayName: "Pro-MB", category: "Compressor", aliases: ["fabfilter_pro_mb", "pro_mb"] },
+  { brand: "FabFilter", displayName: "Pro-MB", category: "Compressor", aliases: ["fabfilter_pro_mb", "pro_mb"], manufacturerUrl: "https://www.fabfilter.com/products/pro-mb-multiband-compressor-plug-in", description: "Pro-MB, c'est un compresseur multi-bandes moderne. Jusqu'à 6 bandes, détection dynamique qui active la compression seulement quand nécessaire, et une interface claire qui évite le piège habituel du multi-bandes : sur-traiter parce qu'on voit des courbes bouger. Idéal pour dompter une voix qui saute dans les aigus, calmer des médiums agressifs dans un mix de groupe, ou sculpter un master." },
   { brand: "FabFilter", displayName: "Pro-DS", category: "Utility", aliases: ["fabfilter_pro_ds", "pro_ds"] },
   { brand: "FabFilter", displayName: "Pro-G", category: "Utility", aliases: ["fabfilter_pro_g", "pro_g"] },
 
@@ -371,21 +374,22 @@ export const KNOWN_PLUGINS: KnownPlugin[] = [
   { brand: "Soundtoys", displayName: "Little AlterBoy", category: "Vocal", aliases: ["little_alterboy", "alterboy"] },
 
   // --- VALHALLA ---
-  { brand: "Valhalla DSP", displayName: "VintageVerb", category: "Reverb", aliases: ["valhalla_vintage_verb", "vintageverb"] },
+  { brand: "Valhalla DSP", displayName: "VintageVerb", category: "Reverb", aliases: ["valhalla_vintage_verb", "vintageverb"], manufacturerUrl: "https://valhalladsp.com/shop/reverb/valhalla-vintage-verb/", description: "VintageVerb, c'est LA référence des reverbs algorithmiques abordables. 22 algorithmes qui vont du hall classique aux plates vintage en passant par des chambres expérimentales, une sonorité chaude et musicale immédiatement utilisable, et un prix dérisoire comparé aux concurrents. Si tu n'as qu'un seul reverb VST, VintageVerb est un choix qu'un pro confirmerait. Son mode 'Dirty' (saturation subtile) et ses modes vintage (70s, 80s, now) lui donnent un caractère distinctif." },
   { brand: "Valhalla DSP", displayName: "ValhallaRoom", category: "Reverb", aliases: ["valhalla_room", "valhallaroom"] },
   { brand: "Valhalla DSP", displayName: "ValhallaDelay", category: "Delay", aliases: ["valhalla_delay", "valhalladelay"] },
-  { brand: "Valhalla DSP", displayName: "ValhallaSupermassive", category: "Reverb", aliases: ["valhalla_supermassive", "supermassive"] },
+  { brand: "Valhalla DSP", displayName: "ValhallaSupermassive", category: "Reverb", aliases: ["valhalla_supermassive", "supermassive"], manufacturerUrl: "https://valhalladsp.com/shop/reverb/valhalla-supermassive/", description: "Supermassive, c'est le reverb/delay gratuit qui fait honte à beaucoup de plugins payants. Spécialisé dans les reverbs géants, longs, atmosphériques, les drones, les textures — pas pour une voix claire, mais pour des nappes synthétiques, des pads, des effets. Gratuit, téléchargé des millions de fois, utilisé partout. Si tu produis de l'ambient, de l'électronique atmosphérique ou des bandes-son, Supermassive devrait déjà être un essentiel." },
   { brand: "Valhalla DSP", displayName: "ValhallaFutureVerb", category: "Reverb", aliases: ["valhalla_future_verb", "futureverb"] },
   { brand: "Valhalla DSP", displayName: "ValhallaFreqEcho", category: "Delay", aliases: ["valhalla_freq_echo", "freqecho"] },
 
   // --- VARIOUS ---
-  { brand: "Xfer Records", displayName: "Serum", category: "Synth", aliases: ["serum"] },
+  { brand: "Xfer Records", displayName: "Serum", category: "Synth", aliases: ["serum"], manufacturerUrl: "https://xferrecords.com/products/serum", description: "Serum, c'est LE synthétiseur wavetable moderne. Pensé pour la production électronique, il combine un son propre et précis avec une interface visuelle qui montre exactement ce que font tes ondes. Si tu fais du hip-hop, de la trap, de l'EDM ou de la pop moderne, tu entends du Serum tous les jours à la radio — qu'il soit chargé à mort de presets tiers ou utilisé pour sculpter un son signature. Ses forces : un éditeur de wavetables complet, des effets intégrés de qualité, et une énorme bibliothèque communautaire. Son piège : facile à surutiliser avec les mêmes presets que tout le monde." },
   { brand: "Xfer Records", displayName: "OTT", category: "Compressor", aliases: ["ott"] },
   { brand: "Vital Audio", displayName: "Vital", category: "Synth", aliases: ["vital"] },
   { brand: "LennarDigital", displayName: "Sylenth1", category: "Synth", aliases: ["sylenth1"] },
-  { brand: "Antares", displayName: "Auto-Tune Access", category: "Vocal", aliases: ["auto_tune_access"] },
+  { brand: "Antares", displayName: "Auto-Tune Access", category: "Vocal", aliases: ["auto_tune_access"], manufacturerUrl: "https://www.antarestech.com/products/auto-tune-access", description: "Auto-Tune Access, c'est la porte d'entrée de la gamme Antares. Correction automatique, contrôles minimaux, idéal pour obtenir l'effet Auto-Tune classique sans se prendre la tête. Pour du travail pro, regarde du côté d'Auto-Tune Artist ou Pro." },
+  { brand: "Antares", displayName: "Auto-Tune Artist", category: "Vocal", aliases: ["auto_tune_artist"], manufacturerUrl: "https://www.antarestech.com/products/auto-tune-artist", description: "Auto-Tune Artist, c'est la version allégée d'Auto-Tune Pro. Corrige en temps réel avec les algorithmes Antares mais sans l'éditeur graphique détaillé. Adapté pour du tracking live ou pour des productions où tu veux une correction rapide sans passer une heure à éditer. Pour le travail fin en post-prod, Pro reste plus complet." },
   { brand: "Antares", displayName: "Auto-Tune EFX", category: "Vocal", aliases: ["auto_tune_efx"] },
-  { brand: "Antares", displayName: "Auto-Tune", category: "Vocal", aliases: ["auto_tune"] },
+  { brand: "Antares", displayName: "Auto-Tune", category: "Vocal", aliases: ["auto_tune"], manufacturerUrl: "https://www.antarestech.com/products/auto-tune-pro", description: "Auto-Tune, c'est le nom qui est devenu un verbe — 'autotuner une voix'. La version pro (Auto-Tune Pro) va bien au-delà de l'effet T-Pain : correction subtile et transparente, graphical mode pour éditer note par note comme dans Melodyne, contrôle du vibrato, gestion du formant. Dans un contexte pop/rap moderne, c'est presque impossible de sortir une voix sans quelques passages corrigés. Utilisé subtilement, inaudible ; utilisé à fond, c'est un effet créatif assumé." },
   { brand: "Antares", displayName: "Auto-Key", category: "Utility", aliases: ["auto_key"] },
   { brand: "LTL", displayName: "Chop Shop EQ", category: "EQ", aliases: ["ltl_chop_shop_eq"] },
   { brand: "LTL", displayName: "Silver Bullet mk2", category: "Saturation", aliases: ["ltl_silver_bullet_mk2"] },

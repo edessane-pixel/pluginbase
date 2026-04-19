@@ -16,6 +16,13 @@ import { useInventoryStore } from '../../../../stores/inventory-store';
 import { useSessionLogStore } from '../../../../stores/session-log-store';
 import { StatusPicker } from '../../../../components/inventory/StatusPicker';
 import { FavoriteButton } from '../../../../components/inventory/FavoriteButton';
+import { AboutBlock } from '../../../../components/plugin/AboutBlock';
+import { InCollectionBlock } from '../../../../components/plugin/InCollectionBlock';
+import { ExternalLinksBlock } from '../../../../components/plugin/ExternalLinksBlock';
+import { resolveKnownPlugin } from '../../../../lib/plugin-normalizer';
+import { buildPluginDescription } from '../../../../lib/plugin-description-generator';
+import { findSimilarPlugins } from '../../../../lib/similar-plugins';
+import { buildExternalLinks } from '../../../../lib/external-search';
 
 export default function PluginDetailPage() {
   const params = useParams();
@@ -60,6 +67,12 @@ export default function PluginDetailPage() {
       setNewTag('');
     }
   };
+
+  // Enrichissement : description, plugins similaires, liens externes
+  const known = resolveKnownPlugin(item.nameRaw);
+  const resolvedDescription = buildPluginDescription(known, item.displayName);
+  const similarGroup = findSimilarPlugins(item, items);
+  const externalLinks = buildExternalLinks(item.displayName, item.brand, known?.manufacturerUrl);
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -144,6 +157,17 @@ export default function PluginDetailPage() {
         </section>
       </div>
 
+      {/* À propos */}
+      <AboutBlock resolved={resolvedDescription} />
+
+      {/* Dans ta collection */}
+      {similarGroup !== null && (
+        <InCollectionBlock similarGroup={similarGroup} categoryKey={item.category} />
+      )}
+
+      {/* En savoir plus */}
+      <ExternalLinksBlock links={externalLinks} source={resolvedDescription.source} />
+
       {/* Notes */}
       <section className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-[14px] p-6 space-y-4">
         <label className="text-[11px] font-mono text-[var(--text-muted)] uppercase block">Note personnelle</label>
@@ -209,3 +233,4 @@ export default function PluginDetailPage() {
     </div>
   );
 }
+

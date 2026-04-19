@@ -18,6 +18,7 @@ export interface InventoryItem {
   brand: string | null;
   displayName: string;
   category: string | null;
+  subcategory?: string;  // optionnel, rempli au scan via resolveKnownPlugin
   status: PluginStatus;
   favorite: boolean;
   personalNote?: string;
