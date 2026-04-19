@@ -57,7 +57,7 @@ export function InCollectionBlock({ similarGroup, categoryKey }: InCollectionBlo
 
       <div className="pt-1">
         <Link
-          href="/inventaire"
+          href={categoryKey ? `/inventaire?category=${encodeURIComponent(categoryKey)}` : '/inventaire'}
           className="font-mono text-[11px] text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
         >
           Voir tous les {categoryLabel.toLowerCase()} →
