@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import * as Select from '@radix-ui/react-select';
 import { ChevronDown, ListFilter } from 'lucide-react';
 import { useInventoryStore } from '../../../stores/inventory-store';
+import { useFiltersStore } from '../../../stores/filters-store';
 import { useFilteredItems } from '../../../hooks/useFilteredItems';
 import { FilterSidebar } from '../../../components/inventory/FilterSidebar';
 import { InventoryList } from '../../../components/inventory/InventoryList';
@@ -15,8 +16,10 @@ type SortOption = 'FAVORITES' | 'AZ' | 'ZA' | 'BRAND' | 'CATEGORY';
 
 export default function InventairePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { items: allItems } = useInventoryStore();
   const { items: filteredItems, totalCount } = useFilteredItems();
+  const toggleCategory = useFiltersStore(s => s.toggleCategory);
   const [sortBy, setSortOption] = useState<SortOption>('FAVORITES');
 
   // Redirection si inventaire vide
@@ -29,6 +32,17 @@ export default function InventairePage() {
     }, 100);
     return () => clearTimeout(timer);
   }, [allItems, router]);
+
+  // Pré-remplir le filtre catégorie depuis le queryParam ?category=
+  const initializedRef = React.useRef(false);
+  useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+    const categoryParam = searchParams.get('category');
+    if (categoryParam && !useFiltersStore.getState().categories.has(categoryParam)) {
+      toggleCategory(categoryParam);
+    }
+  }, [searchParams, toggleCategory]);
 
   const sortedItems = useMemo(() => {
     const list = [...filteredItems];

@@ -89,7 +89,7 @@ export function FilterSidebar() {
                     className="w-3.5 h-3.5 rounded border-[var(--border)] accent-[var(--accent)]"
                   />
                   <span className="text-xs font-body text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
-                    <a href={`/categorie/${c.toLowerCase()}`} onClick={(e) => e.stopPropagation()} className="hover:underline">{c}</a>
+                    {c}
                   </span>
                 </div>
                 <span className="font-mono text-[10px] text-[var(--text-muted)]">
